@@ -20,18 +20,31 @@
         <span class="title">收货地址管理</span>
     </header>
     <div class="cz_container">
+        <form action="">
         <div class="form_box">
-            <div class="mui-input-row">
-                <input name="delivery" type="text" placeholder="收货人">
+            <div class="region">
+                <select id="p" data-id="">
+                    <option value="">请选择省份</option>
+                </select>
+                <select id="c" data-id="">
+                    <option value="">请选择城市</option>
+                </select>
+                <select id="d" data-id="">
+                    <option value="">请选择区/县</option>
+                </select>
             </div>
             <div class="mui-input-row">
-                <input name="postCode" type="text" placeholder="邮编">
+                <input name="recipients" type="text" placeholder="收货人">
             </div>
             <div class="mui-input-row">
-                <textarea name="address" id="textarea" rows="5" placeholder="多行文本框"></textarea>
+                <input name="postcode" type="text" placeholder="邮编">
             </div>
-            <a href="index.html" class="mui-btn mui-btn-primary btn_login">确认</a>
+            <div class="mui-input-row">
+                <textarea name="addressDetail" id="textarea" rows="5" placeholder="多行文本框"></textarea>
+            </div>
+            <button type="submit" class="mui-btn mui-btn-primary btn_login">确认</button>
         </div>
+        </form>
     </div>
     <footer class="cz_tabs">
         <a class="tab_home fa fa-home" href="../index.html"><span>首页</span></a>
@@ -41,5 +54,39 @@
     </footer>
 </div>
 <script src="../res/mui/js/mui.min.js"></script>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.region.js"></script>
+<script>
+
+    $('.region').region({
+        url:'../js/region.json'
+    });
+
+    $('form').on('submit',function(){
+        var data = $(this).serialize();
+
+        var ptext = $('#p option:selected').text();
+        var ctext = $('#c option:selected').text();
+        var dtext = $('#d option:selected').text();
+
+        data += '&address=' + ptext + ctext + dtext;
+        // console.log(data);
+
+        $.ajax({
+            url:'/api/address/addAddress',
+            type:'post',
+            data:data,
+            success:function(info){
+                if(info.success){
+                    location.href = "./address.html"
+                }
+            }
+        });
+
+
+
+        return false;
+    })
+</script>
 </body>
 </html>
