@@ -45,6 +45,30 @@
 <script src="../js/jquery.min.js"></script>
 
 <script>
+
+
+
+    
+    // 通过正则表达式来获取地址上的参数
+    var search = location.search.slice(1);
+    // 以url= 开头，后边接任意大于1个的字符
+    var reg = /url=(.+)/;
+
+    var match = reg.exec(search);
+    // exec 返回一个数组
+
+    // console.log(match[1]);
+
+    if(match){
+        url = match[1]
+    }
+    var url = match && match[1];
+
+
+
+
+
+
     // 当用户点击登录按钮是发送一个ajax请求
     $('.btn_login').on('click',function(){
         $.ajax({
@@ -57,7 +81,13 @@
             success:function(info){
                 console.log(info);
                 if(info.success){
-                    location.href = './index.html';
+                    
+                    if(url){
+                        location.href = url;
+                    }else {
+                        location.href = './index.html';
+                    }
+                    
                 }
             }
         })

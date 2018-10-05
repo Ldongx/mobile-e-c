@@ -135,6 +135,30 @@
             }
         })
 
+        $('.btn_addCart').on('click',function(){
+            $.ajax({
+                url:'/api/cart/addCart',
+                type:'post',
+                data:{
+                    productId: 1,
+                    num: 2,
+                    size: 30
+                },
+                success: function(info){
+                    console.log(info);
+                    if(info.error){
+                        alert('请先登录');
+                        // 如果地址上有url参数，那么跳转到url对应的地址
+
+                        location.href = './user/login.html?url=' + location.href;
+                    }
+                }
+            })
+
+
+            return false;
+        })
+
         mui(function () {
 
 
